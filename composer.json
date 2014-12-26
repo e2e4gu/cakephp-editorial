@@ -10,6 +10,9 @@
     "require-dev": {
         "phpunit/phpunit": "*"
     },
+    "suggest": {
+        "mindforce/garderobe": "Allow to create user-friendly interfaces in fast and simple style"
+    },
     "autoload": {
         "psr-4": {
             "Editorial\\Core\\": "src"
