@@ -1,5 +1,5 @@
 {
-    "name": "mindforce/editorial",
+    "name": "mindforce/cakephp-editorial",
     "description": "Editorial Core plugin for CakePHP",
     "type": "cakephp-plugin",
     "require": {
