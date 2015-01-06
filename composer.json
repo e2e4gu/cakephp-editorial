@@ -1,7 +1,21 @@
 {
     "name": "mindforce/cakephp-editorial",
     "description": "Editorial Core plugin for CakePHP",
-    "type": "cakephp-plugin",
+	"homepage": "http://mindforce.me",
+	"keywords": ["cakephp", "ui", "editor"],
+	"type": "cakephp-plugin",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Denys Kyselov",
+			"homepage": "https://mindforce.me"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/mindforce/cakephp-editorial/issues",
+		"source": "https://github.com/mindforce/cakephp-editorial"
+	},
+	"minimum-stability": "dev",
     "require": {
         "php": ">=5.4",
         "cakephp/plugin-installer": "*",
