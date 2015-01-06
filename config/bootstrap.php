@@ -12,14 +12,19 @@
 
 use Cake\Core\Configure;
 use Cake\Event\EventManager;
+use Cake\Routing\DispatcherFactory;
+
+Configure::write('Editorial', [
+	'editor' => false,
+	'class' => 'editor',
+	'autoload' => false,
+	// Experimental feature
+	'shortenUrls' => false,
+]);
 
 EventManager::instance()->attach(
 	new Editorial\Core\Event\EditorialEvent,
 	null
 );
 
-Configure::write('Editorial', [
-	'editor' => false,
-	'class' => 'editor',
-	'autoload' => false
-]);
+DispatcherFactory::add('Editorial/Core.ShortenAsset');

@@ -11,15 +11,18 @@
 */
 namespace Editorial\Core\Event;
 
+use Editorial\Core\Core\NamespaceTrait;
 use Cake\Core\Configure;
+use Cake\Core\Plugin;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 
 class EditorialEvent implements EventListenerInterface {
 
+	use NamespaceTrait;
+
 	public function implementedEvents() {
 		return array(
-			//'View.afterRenderFile' => array(
 			'View.beforeLayout' => array(
 				'callable' => 'injectEditor',
 			),
@@ -34,13 +37,17 @@ class EditorialEvent implements EventListenerInterface {
 			if(empty($searchClass)){
 				$searchClass = 'editor';
 			}
-			$editorClassName = Configure::read('Editorial.editor');
+			$plugin = Configure::read('Editorial.editor');
+			list($vendor, $class) = $this->vendorSplit($plugin);
 			$searchRegex = '/(<textarea.*class\=\".*'
 				.Configure::read('Editorial.class').'\"[^>]*>.*<\/textarea>)/isU';
-			if(($editorClassName !== false)&&preg_match_all($searchRegex, $content, $matches)){
+			if((Plugin::loaded($plugin) !== false)&&preg_match_all($searchRegex, $content, $matches)){
 				if(!$_view->helpers()->has('Editor')) {
-					$options['className'] = 'Editorial/'.$editorClassName.'.'.$editorClassName;
-					if($editorDefaults = Configure::read('Editorial.'.$editorClassName.'.defaults')) {
+					$options['className'] = $class.'.'.$class;
+					if($vendor){
+						$options['className'] = $vendor.'/'.$options['className'];
+					}
+					if($editorDefaults = Configure::read('Editorial.'.$class.'.defaults')) {
 						$options['options'] = $editorDefaults;
 					}
 					$_view->loadHelper('Editor', $options);

@@ -1,11 +1,16 @@
 <?php
 namespace Editorial\Core\View\Helper;
 
+use Editorial\Core\Core\NamespaceTrait;
 use Cake\View\Helper;
 use Cake\View\View;
+use Cake\Core\Configure;
 use Cake\Core\Configure\Engine\PhpConfig;
+use Cake\Utility\Inflector;
 
 class EditorialHelper extends Helper {
+
+	use NamespaceTrait;
 
 /**
  * Helpers used by Editorial Helper
@@ -23,7 +28,7 @@ class EditorialHelper extends Helper {
 		'options' => []
 	];
 
-	public function __construct(View $View, array $config = []) {
+	public function __construct(View $View, array $config = array()) {
 		if (isset($config['options'])) {
 			if (is_string($config['options'])) {
 				$this->loadConfig($config['options']);
@@ -45,6 +50,32 @@ class EditorialHelper extends Helper {
 		return true;
 	}
 
+	public function css($path, array $options = array()){
+		$shortenUrls = Configure::read('Editorial.shortenUrls');
+		if(Configure::read('Editorial.shortenUrls')){
+			$path = $this->shortenize($path);
+			$options['plugin'] = false;
+		}
+		return $this->Html->css($path, $options);
+	}
+
+	public function script($path, array $options = array()){
+		$shortenUrls = Configure::read('Editorial.shortenUrls');
+		if(Configure::read('Editorial.shortenUrls')){
+			$path = $this->shortenize($path);
+			$options['plugin'] = false;
+		}
+		return $this->Html->script($path, $options);
+	}
+
+	protected function shortenize($path){
+		list($plugin, $path) = pluginSplit($path);
+		if(!$plugin){
+			return $path;
+		}
+		list($vendor, $class) = $this->vendorSplit($plugin);
+		return Inflector::underscore($class).'/'.$path;
+	}
 /**
  * Load a config file containing editor options.
  *
