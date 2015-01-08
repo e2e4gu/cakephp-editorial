@@ -47,9 +47,10 @@ class EditorialEvent implements EventListenerInterface {
 					if($vendor){
 						$options['className'] = $vendor.'/'.$options['className'];
 					}
+                    $options['options'] = $plugin.'.defaults';
 					if($editorDefaults = Configure::read('Editorial.'.$class.'.defaults')) {
 						$options['options'] = $editorDefaults;
-					}
+                    }
 					$_view->loadHelper('Editor', $options);
 					$_view->Editor->initialize();
 				}

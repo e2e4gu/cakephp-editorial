@@ -7,6 +7,7 @@ use Cake\View\View;
 use Cake\Core\Configure;
 use Cake\Core\Configure\Engine\PhpConfig;
 use Cake\Utility\Inflector;
+use Cake\Log\Log;
 
 class EditorialHelper extends Helper {
 
@@ -83,8 +84,13 @@ class EditorialHelper extends Helper {
  * @return void
 */
 	public function loadConfig($file) {
-		$loader = new PhpConfig();
-		$options = $loader->read($file);
+        $options = [];
+        try {
+            $loader = new PhpConfig();
+            $options = $loader->read($file);
+        } catch (\Exception $e) {
+            Log::warning($e->getMessage());
+        }
 		$this->config('options', $options);
 	}
 }
