@@ -40,7 +40,11 @@ class EditorialHelper extends Helper {
 	}
 
 	public function initialize() {
-		return $content;
+		return $this->assets(true);
+	}
+
+    public function assets($block = false) {
+		return;
 	}
 
 	public function connect($content = null) {
