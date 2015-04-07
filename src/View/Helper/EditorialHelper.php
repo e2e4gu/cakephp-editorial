@@ -18,7 +18,7 @@ class EditorialHelper extends Helper {
  *
  * @var array
  */
-	public $helpers = ['Html'];
+	public $helpers = ['Html', 'Form'];
 
 /**
  * Default config for the helper.
@@ -26,10 +26,12 @@ class EditorialHelper extends Helper {
  * @var array
  */
 	protected $_defaultConfig = [
-		'options' => []
+        'block' => true,
+        'options' => []
 	];
 
-	public function __construct(View $View, array $config = array()) {
+	public function __construct(View $View, array $config = array())
+    {
 		if (isset($config['options'])) {
 			if (is_string($config['options'])) {
 				$this->loadConfig($config['options']);
@@ -39,23 +41,39 @@ class EditorialHelper extends Helper {
 		parent::__construct($View, $config);
 	}
 
-	public function initialize() {
+	public function initialize()
+    {
 		return $this->assets(true);
 	}
 
-    public function assets($block = false) {
+    public function input($fieldName, array $options = [])
+    {
+        $block = $this->config('options.theme');
+        if(isset($options['block'])){
+            $block = $options['block'];
+        }
+        if(isset($this->_View->Form)){
+            $input = $this->_View->Form->input($fieldName, $options);
+        } else {
+            $input = $this->Form->input($fieldName, $options);
+        }
+        $input .= $this->assets($block);
+        $input .= $this->connect($input, $block);
+		return $input;
+	}
+
+    public function assets($block = true)
+    {
 		return;
 	}
 
-	public function connect($content = null) {
+	public function connect($content = null, $block = true)
+    {
 		return $content;
 	}
 
-	public function input(){
-		return true;
-	}
-
-	public function css($path, array $options = array()){
+	public function css($path, array $options = array())
+    {
 		$shortenUrls = Configure::read('Editorial.shortenUrls');
 		if(Configure::read('Editorial.shortenUrls')){
 			$path = $this->shortenize($path);
@@ -64,7 +82,8 @@ class EditorialHelper extends Helper {
 		return $this->Html->css($path, $options);
 	}
 
-	public function script($path, array $options = array()){
+	public function script($path, array $options = array())
+    {
 		$shortenUrls = Configure::read('Editorial.shortenUrls');
 		if(Configure::read('Editorial.shortenUrls')){
 			$path = $this->shortenize($path);
@@ -73,7 +92,8 @@ class EditorialHelper extends Helper {
 		return $this->Html->script($path, $options);
 	}
 
-	protected function shortenize($path){
+	protected function shortenize($path)
+    {
 		list($plugin, $path) = pluginSplit($path);
 		if(!$plugin){
 			return $path;
@@ -81,13 +101,15 @@ class EditorialHelper extends Helper {
 		list($vendor, $class) = $this->vendorSplit($plugin);
 		return Inflector::underscore($class).'/'.$path;
 	}
-/**
- * Load a config file containing editor options.
- *
- * @param string $file The file to load
- * @return void
-*/
-	public function loadConfig($file) {
+
+    /**
+     * Load a config file containing editor options.
+     *
+     * @param string $file The file to load
+     * @return void
+    */
+	public function loadConfig($file)
+    {
         $options = [];
         try {
             $loader = new PhpConfig();
