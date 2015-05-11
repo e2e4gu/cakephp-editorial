@@ -40,7 +40,9 @@ class EditorialEvent implements EventListenerInterface {
 			$plugin = Configure::read('Editorial.editor');
 			list($vendor, $class) = $this->vendorSplit($plugin);
 			$searchRegex = '/(<textarea.*class\=\".*'
-				.Configure::read('Editorial.class').'\"[^>]*>.*<\/textarea>)/isU';
+				.Configure::read('Editorial.class').'.*\"[^>]*>.*<\/textarea>)/isU';
+            //preg_match_all($searchRegex, $content, $matches);
+            //debug($matches);
 			if((Plugin::loaded($plugin) !== false)&&preg_match_all($searchRegex, $content, $matches)){
 				if(!$_view->helpers()->has('Editor')) {
 					$options['className'] = $class.'.'.$class;
