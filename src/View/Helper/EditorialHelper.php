@@ -41,7 +41,7 @@ class EditorialHelper extends Helper {
 		parent::__construct($View, $config);
 	}
 
-	public function initialize()
+	public function initialize(array $config = array())
     {
 		return $this->assets(true);
 	}
