@@ -75,7 +75,8 @@ class EditorialHelper extends Helper {
 	public function css($path, array $options = array())
     {
 		$shortenUrls = Configure::read('Editorial.shortenUrls');
-		if(Configure::read('Editorial.shortenUrls')){
+		if(Configure::read('Editorial.shortenUrls')
+			&&(!isset($options['plugin'])||($options['plugin'] !== false))){
 			$path = $this->shortenize($path);
 			$options['plugin'] = false;
 		}
@@ -85,7 +86,8 @@ class EditorialHelper extends Helper {
 	public function script($path, array $options = array())
     {
 		$shortenUrls = Configure::read('Editorial.shortenUrls');
-		if(Configure::read('Editorial.shortenUrls')){
+		if(Configure::read('Editorial.shortenUrls')
+			&&(!isset($options['plugin'])||($options['plugin'] !== false))){
 			$path = $this->shortenize($path);
 			$options['plugin'] = false;
 		}
@@ -94,12 +96,22 @@ class EditorialHelper extends Helper {
 
 	protected function shortenize($path)
     {
-		list($plugin, $path) = pluginSplit($path);
-		if(!$plugin){
-			return $path;
+		if(!is_array($path)){
+			$path = [$path];
 		}
-		list($vendor, $class) = $this->vendorSplit($plugin);
-		return Inflector::underscore($class).'/'.$path;
+		foreach($path as $key=>$_path){
+			list($plugin, $_path) = pluginSplit($_path);
+			//Maybe not needed anymore
+			//if(!$plugin){
+			//	return $_path;
+			//}
+			list($vendor, $class) = $this->vendorSplit($plugin);
+			$path[$key] = Inflector::underscore($class).'/'.$_path;
+		}
+		if(count($path) == 1){
+			$path = $path[0];
+		}
+		return $path;
 	}
 
     /**

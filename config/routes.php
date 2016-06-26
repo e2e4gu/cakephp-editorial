@@ -1,6 +1,6 @@
 <?php
 use Cake\Routing\Router;
 
-Router::plugin('Editorial', function ($routes) {
+Router::plugin('Editorial/Core', function ($routes) {
     $routes->fallbacks();
 });
