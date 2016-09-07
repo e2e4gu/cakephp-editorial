@@ -31,10 +31,12 @@ class ShortenAssetFilter extends AssetFilter {
 		$parts = explode('/', $url);
 		$asset = array_shift($parts);
 		$parts[0] = $asset;
-		$path = Plugin::path(Configure::read('Editorial.editor')). Configure::read('App.webroot'). DS . implode(DS, $parts);
-		if (file_exists($path)) {
-			return $path;
-		}
+        if(Configure::read('Editorial.shortenUrls')&&($plugin = Configure::read('Editorial.editor'))){
+            $path = Plugin::path($plugin). Configure::read('App.webroot'). DS . implode(DS, $parts);
+    		if (file_exists($path)) {
+    			return $path;
+    		}
+        }
 	}
 
 }
