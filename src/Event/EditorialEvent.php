@@ -30,7 +30,7 @@ class EditorialEvent implements EventListenerInterface {
 	}
 
 	public function injectEditor(Event $event, $layoutFile){
-		$_view = $event->subject();
+		$_view = $event->getSubject();
 		$content = $_view->fetch('content');
 		if(Configure::read('Editorial.autoload')){
 			$searchClass = Configure::read('Editorial.autoload');

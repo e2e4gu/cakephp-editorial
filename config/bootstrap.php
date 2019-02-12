@@ -22,9 +22,8 @@ Configure::write('Editorial', [
 	'shortenUrls' => false,
 ]);
 
-EventManager::instance()->attach(
-	new Editorial\Core\Event\EditorialEvent,
-	null
-);
+//EventManager::instance()->on(
+//	new \Editorial\Core\Event\EditorialEvent
+//);
 
-DispatcherFactory::add('Editorial/Core.ShortenAsset');
+//DispatcherFactory::add('Editorial/Core.ShortenAsset');
