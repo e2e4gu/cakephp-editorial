@@ -12,7 +12,7 @@ class Plugin extends BasePlugin
     {
         $shortenAsset = new \Editorial\Core\Routing\Middleware\ShortenAssetMiddleware;
         $middleware->insertBefore(
-            'Cake\Routing\AssetMiddleware',
+            'Cake\Routing\Middleware\AssetMiddleware',
             $shortenAsset
         );
         return $middleware;
