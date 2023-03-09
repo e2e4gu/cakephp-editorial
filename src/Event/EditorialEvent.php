@@ -21,7 +21,8 @@ class EditorialEvent implements EventListenerInterface {
 
 	use NamespaceTrait;
 
-	public function implementedEvents() {
+	public function implementedEvents(): array
+	{
 		return array(
 			'View.beforeLayout' => array(
 				'callable' => 'injectEditor',

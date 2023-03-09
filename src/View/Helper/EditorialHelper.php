@@ -41,14 +41,14 @@ class EditorialHelper extends Helper {
 		parent::__construct($View, $config);
 	}
 
-	public function initialize(array $config = array())
+	public function initialize(array $config = array()): void
     {
-		return $this->assets(true);
+		// return $this->assets(true);
 	}
 
     public function input($fieldName, array $options = [])
     {
-        $block = $this->config('options.theme');
+        $block = $this->getConfig('options.theme');
         if(isset($options['block'])){
             $block = $options['block'];
         }
@@ -129,6 +129,6 @@ class EditorialHelper extends Helper {
         } catch (\Exception $e) {
             Log::warning($e->getMessage());
         }
-		$this->config('options', $options);
+		$this->setConfig('options', $options);
 	}
 }

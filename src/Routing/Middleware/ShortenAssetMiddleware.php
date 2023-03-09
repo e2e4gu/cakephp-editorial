@@ -8,7 +8,8 @@ use Cake\Utility\Inflector;
 
 class ShortenAssetMiddleware extends AssetMiddleware {
 
-	protected function _getAssetFile($url) {
+	protected function _getAssetFile(string $url): ?string
+	{
 		$parts = explode('/', $url);
 		$asset = array_shift($parts);
 		$parts[0] = $asset;
@@ -18,6 +19,7 @@ class ShortenAssetMiddleware extends AssetMiddleware {
     			return $path;
     		}
         }
+		return null;
 	}
 
 }
